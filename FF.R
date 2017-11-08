@@ -1,6 +1,8 @@
 #make some mock data
+setwd("C:/Fantasy-Football-Schedule-Analysis")
 library(dplyr)
 library(highcharter)
+library(reshape2)
 data <- data.frame(
   team = letters[1:12],
   week1 = runif(n = 12, min = 70, max = 130),
@@ -16,6 +18,9 @@ data <- data.frame(
   week11 = runif(n = 12, min = 70, max = 130)
 )
 
+transactions <- openxlsx::read.xlsx("FF.xlsx", sheet = 2)
+transactions$total <- rowSums(transactions[,c(2,3,5)])
+transactions <- arrange(transactions, desc(Acquisitions))
 # x is player schedule is for, y is vector of all possible teams (including x)
 createSchedule <- function(x, y){
   teams <- y
@@ -45,7 +50,7 @@ createSchedule <- function(x, y){
 iterations <- 10000
 wins <- rep(NA, iterations)
 
-# Run 1000 simulations
+# Run 10000 simulations
 for (i in c(1:iterations)){
   schedule <- createSchedule("b", data$team)
   numWins <- length(grep(pattern = "w", schedule$result))
@@ -80,3 +85,15 @@ highchart() %>%
     headerFormat = ""
   ) %>%
   hc_title(text = "Number of wins based on 10,000 simulations")
+
+mtransactions <- melt(data = transactions, measure.vars = "team")
+
+####Transactions graph
+highchart() %>%
+  hc_xAxis(categories = transactions$team) %>%
+  hc_add_series(data = transactions$Trades, type = "column", name = "Trades") %>%
+  hc_add_series(data = transactions$Acquisitions, type = "column", name = "Acquisitions") %>%
+  hc_add_series(data = transactions$Activate, type = "column", name = "Activations")%>%
+  hc_title(text = "Transactions by Type")
+  
+
