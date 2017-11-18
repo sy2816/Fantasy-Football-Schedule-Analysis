@@ -88,16 +88,76 @@ highchart() %>%
 
 ```
 
+##Schedule Analysis
 
-##Alex
-##Neil
-##Stephen
-##Tommy
-##Leigh
-##Kyle
-##Charlie
-##Kelsey
-##Sam
-##Doug
-##Cooper
-##Erik
+###Alex
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Neil
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Stephen
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Tommy
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Leigh
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Kyle
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Charlie
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Kelsey
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Sam
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Doug
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Cooper
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:
+
+###Erik
+####Actual record:
+####Mean simulated record:
+####Max-win simulated record:
+####Min-win simulated record:

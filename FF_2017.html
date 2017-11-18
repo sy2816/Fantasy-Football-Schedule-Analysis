@@ -158,18 +158,7 @@ $(document).ready(function () {
 <ul>
 <li><a href="#score-comparison">Score Comparison</a></li>
 <li><a href="#transaction-activity">Transaction Activity</a></li>
-<li><a href="#alex">Alex</a></li>
-<li><a href="#neil">Neil</a></li>
-<li><a href="#stephen">Stephen</a></li>
-<li><a href="#tommy">Tommy</a></li>
-<li><a href="#leigh">Leigh</a></li>
-<li><a href="#kyle">Kyle</a></li>
-<li><a href="#charlie">Charlie</a></li>
-<li><a href="#kelsey">Kelsey</a></li>
-<li><a href="#sam">Sam</a></li>
-<li><a href="#doug">Doug</a></li>
-<li><a href="#cooper">Cooper</a></li>
-<li><a href="#erik">Erik</a></li>
+<li><a href="#schedule-analysis">Schedule Analysis</a></li>
 </ul>
 </div>
 
@@ -189,76 +178,223 @@ data &lt;- data.frame(
   week11 = runif(n = 12, min = 70, max = 130)
 )</code></pre>
 <pre><code>##    Team    Week 1    Week 2    Week 3    Week 4    Week 5    Week 6
-## 1     a 125.15846  85.20100  90.86681 129.12223 109.99055 117.76821
-## 2     b 115.47281  99.40763  99.47606  71.09157 122.56005  79.83506
-## 3     c 128.65073  85.79814 121.60625  70.38871 122.07154  90.98707
-## 4     d  72.50525 121.53030 122.20197  87.06983 105.64857  91.52117
-## 5     e  87.95169 110.68783 113.40494  89.01825 101.79156 110.83839
-## 6     f  77.59595 122.60800 128.58727  90.31744  95.51615 110.51203
-## 7     g  89.21095  92.01762 103.93372  86.13987  79.34731  99.96407
-## 8     h 111.88890 118.36562  80.49151  99.39598 104.55793 118.29577
-## 9     i  78.51165 108.14150  98.96716  71.18952 125.45691  73.12223
-## 10    j  94.37710  83.66831 123.25004 118.52926 123.40343  98.61458
-## 11    k  87.56625 120.11442 129.03843  71.08455 107.66614  94.33564
-## 12    l  78.13386 101.78899 108.28469  94.76373 121.56267  89.99838
+## 1     a  89.27957  74.68628  89.33134 115.37668  84.69631 114.47805
+## 2     b  78.61082  82.31705  82.28783  78.22584  71.29005 111.16258
+## 3     c 122.89296 108.15298  96.73730 126.84786  83.35735  71.65616
+## 4     d  99.78670 114.33726 108.25940  87.47697  84.93536  92.60948
+## 5     e  78.92306 128.07037 119.90362 113.16565  92.82532 106.11628
+## 6     f  80.14491 128.30036 104.46376  71.12946 110.86952 114.94668
+## 7     g  71.57827 103.32958  71.55050 127.70652 106.39957 125.27991
+## 8     h 110.44006  91.62827  82.58711 124.71748 125.32403  97.40780
+## 9     i 115.66685 121.87528  91.67746 103.15708  76.54684  99.91367
+## 10    j  97.13308  99.98770 113.54465  90.51102  83.10818 106.07706
+## 11    k 111.60041  91.48284  79.18457 118.94841 125.60633 100.60400
+## 12    l  80.54625 108.88772  78.67450  71.57043  97.89917 123.53583
 ##       Week 7    Week 8    Week 9   Week 10   Week 11
-## 1   98.82733  73.17333 119.00535 100.29702  86.58499
-## 2  117.12409 113.59834  85.54288  82.51705 116.28945
-## 3  115.37827 123.96072  79.26822  98.39891  88.00360
-## 4   95.38890 118.70597 113.55873  85.08227 110.30584
-## 5   73.27748 114.04507  93.92465 106.13467 116.18545
-## 6   83.70994  76.00537  75.05840  86.69165  71.88945
-## 7   90.62368  76.84399 120.76637 114.47128 121.01041
-## 8  129.88013 103.87016  75.10035 104.78923  83.12864
-## 9  124.83428 110.21905 122.09431 115.94512  84.35376
-## 10  97.60111 113.04728 118.24756  90.50025  90.94527
-## 11 123.70335 125.95495 128.54168  76.46233 103.70620
-## 12  79.01436  85.52060  91.39712 128.54060 105.25980</code></pre>
+## 1  110.27297  79.54781 109.49918 122.04017  84.14236
+## 2  106.67539 123.12560  73.23437  86.86779 124.25421
+## 3  100.45769  92.66695  94.37647  94.19388 104.04075
+## 4   74.46681  83.57501  77.42633 112.31544  78.00589
+## 5   80.48754 113.91571 115.45011  87.45773 124.14372
+## 6  128.85456  87.94886 106.06443 109.97136 110.41600
+## 7   82.45143  85.29745  75.46021  80.17777 109.30901
+## 8   85.63767  74.88839  78.30067 103.64384  92.46147
+## 9  109.94069  94.20149  96.47296 117.33661 104.17286
+## 10 120.27351  83.58278  70.32572 125.66981  82.80324
+## 11 113.00468  75.69605  73.46358  85.35394  90.94748
+## 12 129.66644 114.85472 108.61840  84.67255  86.01300</code></pre>
 <div id="score-comparison" class="section level2">
 <h2>Score Comparison</h2>
-<div id="htmlwidget-968788cfac740476ec8d" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-968788cfac740476ec8d">{"x":{"hc_opts":{"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10},"series":[{"name":"a","data":[{"team":"a","variable":"week1","value":125.158455511555,"y":125.158455511555,"name":"week1"},{"team":"a","variable":"week2","value":85.2010016562417,"y":85.2010016562417,"name":"week2"},{"team":"a","variable":"week3","value":90.8668149309233,"y":90.8668149309233,"name":"week3"},{"team":"a","variable":"week4","value":129.122233060189,"y":129.122233060189,"name":"week4"},{"team":"a","variable":"week5","value":109.990549366921,"y":109.990549366921,"name":"week5"},{"team":"a","variable":"week6","value":117.768209171481,"y":117.768209171481,"name":"week6"},{"team":"a","variable":"week7","value":98.8273275038227,"y":98.8273275038227,"name":"week7"},{"team":"a","variable":"week8","value":73.1733347568661,"y":73.1733347568661,"name":"week8"},{"team":"a","variable":"week9","value":119.005350028165,"y":119.005350028165,"name":"week9"},{"team":"a","variable":"week10","value":100.297023565508,"y":100.297023565508,"name":"week10"},{"team":"a","variable":"week11","value":86.5849914168939,"y":86.5849914168939,"name":"week11"}],"type":"line"},{"name":"b","data":[{"team":"b","variable":"week1","value":115.472813616507,"y":115.472813616507,"name":"week1"},{"team":"b","variable":"week2","value":99.4076305767521,"y":99.4076305767521,"name":"week2"},{"team":"b","variable":"week3","value":99.4760592468083,"y":99.4760592468083,"name":"week3"},{"team":"b","variable":"week4","value":71.0915677063167,"y":71.0915677063167,"name":"week4"},{"team":"b","variable":"week5","value":122.560047381558,"y":122.560047381558,"name":"week5"},{"team":"b","variable":"week6","value":79.8350595170632,"y":79.8350595170632,"name":"week6"},{"team":"b","variable":"week7","value":117.124087642878,"y":117.124087642878,"name":"week7"},{"team":"b","variable":"week8","value":113.598344945349,"y":113.598344945349,"name":"week8"},{"team":"b","variable":"week9","value":85.542878517881,"y":85.542878517881,"name":"week9"},{"team":"b","variable":"week10","value":82.5170487584546,"y":82.5170487584546,"name":"week10"},{"team":"b","variable":"week11","value":116.289449492469,"y":116.289449492469,"name":"week11"}],"type":"line"},{"name":"c","data":[{"team":"c","variable":"week1","value":128.650733712129,"y":128.650733712129,"name":"week1"},{"team":"c","variable":"week2","value":85.7981388736516,"y":85.7981388736516,"name":"week2"},{"team":"c","variable":"week3","value":121.606247457676,"y":121.606247457676,"name":"week3"},{"team":"c","variable":"week4","value":70.3887114441022,"y":70.3887114441022,"name":"week4"},{"team":"c","variable":"week5","value":122.071539866738,"y":122.071539866738,"name":"week5"},{"team":"c","variable":"week6","value":90.9870725125074,"y":90.9870725125074,"name":"week6"},{"team":"c","variable":"week7","value":115.378271043301,"y":115.378271043301,"name":"week7"},{"team":"c","variable":"week8","value":123.960723569617,"y":123.960723569617,"name":"week8"},{"team":"c","variable":"week9","value":79.2682166630402,"y":79.2682166630402,"name":"week9"},{"team":"c","variable":"week10","value":98.3989118225873,"y":98.3989118225873,"name":"week10"},{"team":"c","variable":"week11","value":88.0035965517163,"y":88.0035965517163,"name":"week11"}],"type":"line","visible":false},{"name":"d","data":[{"team":"d","variable":"week1","value":72.5052480539307,"y":72.5052480539307,"name":"week1"},{"team":"d","variable":"week2","value":121.530298991129,"y":121.530298991129,"name":"week2"},{"team":"d","variable":"week3","value":122.201971821487,"y":122.201971821487,"name":"week3"},{"team":"d","variable":"week4","value":87.0698271971196,"y":87.0698271971196,"name":"week4"},{"team":"d","variable":"week5","value":105.648565287702,"y":105.648565287702,"name":"week5"},{"team":"d","variable":"week6","value":91.5211687516421,"y":91.5211687516421,"name":"week6"},{"team":"d","variable":"week7","value":95.3888993849978,"y":95.3888993849978,"name":"week7"},{"team":"d","variable":"week8","value":118.70597419329,"y":118.70597419329,"name":"week8"},{"team":"d","variable":"week9","value":113.558726804331,"y":113.558726804331,"name":"week9"},{"team":"d","variable":"week10","value":85.0822719139978,"y":85.0822719139978,"name":"week10"},{"team":"d","variable":"week11","value":110.305836456828,"y":110.305836456828,"name":"week11"}],"type":"line","visible":false},{"name":"e","data":[{"team":"e","variable":"week1","value":87.9516850225627,"y":87.9516850225627,"name":"week1"},{"team":"e","variable":"week2","value":110.687826746143,"y":110.687826746143,"name":"week2"},{"team":"e","variable":"week3","value":113.404942587949,"y":113.404942587949,"name":"week3"},{"team":"e","variable":"week4","value":89.018249316141,"y":89.018249316141,"name":"week4"},{"team":"e","variable":"week5","value":101.791559746489,"y":101.791559746489,"name":"week5"},{"team":"e","variable":"week6","value":110.838387450203,"y":110.838387450203,"name":"week6"},{"team":"e","variable":"week7","value":73.2774824602529,"y":73.2774824602529,"name":"week7"},{"team":"e","variable":"week8","value":114.045069650747,"y":114.045069650747,"name":"week8"},{"team":"e","variable":"week9","value":93.9246526360512,"y":93.9246526360512,"name":"week9"},{"team":"e","variable":"week10","value":106.13467337098,"y":106.13467337098,"name":"week10"},{"team":"e","variable":"week11","value":116.185451922938,"y":116.185451922938,"name":"week11"}],"type":"line","visible":false},{"name":"f","data":[{"team":"f","variable":"week1","value":77.5959452148527,"y":77.5959452148527,"name":"week1"},{"team":"f","variable":"week2","value":122.60799519252,"y":122.60799519252,"name":"week2"},{"team":"f","variable":"week3","value":128.587267911062,"y":128.587267911062,"name":"week3"},{"team":"f","variable":"week4","value":90.3174368897453,"y":90.3174368897453,"name":"week4"},{"team":"f","variable":"week5","value":95.5161459650844,"y":95.5161459650844,"name":"week5"},{"team":"f","variable":"week6","value":110.512025617063,"y":110.512025617063,"name":"week6"},{"team":"f","variable":"week7","value":83.7099403329194,"y":83.7099403329194,"name":"week7"},{"team":"f","variable":"week8","value":76.0053718974814,"y":76.0053718974814,"name":"week8"},{"team":"f","variable":"week9","value":75.0583992153406,"y":75.0583992153406,"name":"week9"},{"team":"f","variable":"week10","value":86.6916457563639,"y":86.6916457563639,"name":"week10"},{"team":"f","variable":"week11","value":71.8894472299144,"y":71.8894472299144,"name":"week11"}],"type":"line","visible":false},{"name":"g","data":[{"team":"g","variable":"week1","value":89.2109478870407,"y":89.2109478870407,"name":"week1"},{"team":"g","variable":"week2","value":92.0176211930811,"y":92.0176211930811,"name":"week2"},{"team":"g","variable":"week3","value":103.933718632907,"y":103.933718632907,"name":"week3"},{"team":"g","variable":"week4","value":86.1398732010275,"y":86.1398732010275,"name":"week4"},{"team":"g","variable":"week5","value":79.3473129393533,"y":79.3473129393533,"name":"week5"},{"team":"g","variable":"week6","value":99.9640671862289,"y":99.9640671862289,"name":"week6"},{"team":"g","variable":"week7","value":90.6236768327653,"y":90.6236768327653,"name":"week7"},{"team":"g","variable":"week8","value":76.8439906556159,"y":76.8439906556159,"name":"week8"},{"team":"g","variable":"week9","value":120.766367320903,"y":120.766367320903,"name":"week9"},{"team":"g","variable":"week10","value":114.471282819286,"y":114.471282819286,"name":"week10"},{"team":"g","variable":"week11","value":121.010405006818,"y":121.010405006818,"name":"week11"}],"type":"line","visible":false},{"name":"h","data":[{"team":"h","variable":"week1","value":111.888899826445,"y":111.888899826445,"name":"week1"},{"team":"h","variable":"week2","value":118.365624486469,"y":118.365624486469,"name":"week2"},{"team":"h","variable":"week3","value":80.4915050696582,"y":80.4915050696582,"name":"week3"},{"team":"h","variable":"week4","value":99.3959826231003,"y":99.3959826231003,"name":"week4"},{"team":"h","variable":"week5","value":104.557933574542,"y":104.557933574542,"name":"week5"},{"team":"h","variable":"week6","value":118.295774930157,"y":118.295774930157,"name":"week6"},{"team":"h","variable":"week7","value":129.880134901032,"y":129.880134901032,"name":"week7"},{"team":"h","variable":"week8","value":103.870159080252,"y":103.870159080252,"name":"week8"},{"team":"h","variable":"week9","value":75.1003486849368,"y":75.1003486849368,"name":"week9"},{"team":"h","variable":"week10","value":104.789233366027,"y":104.789233366027,"name":"week10"},{"team":"h","variable":"week11","value":83.1286416854709,"y":83.1286416854709,"name":"week11"}],"type":"line","visible":false},{"name":"i","data":[{"team":"i","variable":"week1","value":78.5116490116343,"y":78.5116490116343,"name":"week1"},{"team":"i","variable":"week2","value":108.141500269994,"y":108.141500269994,"name":"week2"},{"team":"i","variable":"week3","value":98.967164917849,"y":98.967164917849,"name":"week3"},{"team":"i","variable":"week4","value":71.1895227059722,"y":71.1895227059722,"name":"week4"},{"team":"i","variable":"week5","value":125.45691032894,"y":125.45691032894,"name":"week5"},{"team":"i","variable":"week6","value":73.1222284631804,"y":73.1222284631804,"name":"week6"},{"team":"i","variable":"week7","value":124.834281969815,"y":124.834281969815,"name":"week7"},{"team":"i","variable":"week8","value":110.219052033499,"y":110.219052033499,"name":"week8"},{"team":"i","variable":"week9","value":122.094308035448,"y":122.094308035448,"name":"week9"},{"team":"i","variable":"week10","value":115.945123033598,"y":115.945123033598,"name":"week10"},{"team":"i","variable":"week11","value":84.3537563690916,"y":84.3537563690916,"name":"week11"}],"type":"line","visible":false},{"name":"j","data":[{"team":"j","variable":"week1","value":94.3770961323753,"y":94.3770961323753,"name":"week1"},{"team":"j","variable":"week2","value":83.6683132871985,"y":83.6683132871985,"name":"week2"},{"team":"j","variable":"week3","value":123.250036304817,"y":123.250036304817,"name":"week3"},{"team":"j","variable":"week4","value":118.529259269126,"y":118.529259269126,"name":"week4"},{"team":"j","variable":"week5","value":123.403426655568,"y":123.403426655568,"name":"week5"},{"team":"j","variable":"week6","value":98.614576458931,"y":98.614576458931,"name":"week6"},{"team":"j","variable":"week7","value":97.6011098176241,"y":97.6011098176241,"name":"week7"},{"team":"j","variable":"week8","value":113.047284446657,"y":113.047284446657,"name":"week8"},{"team":"j","variable":"week9","value":118.247562628239,"y":118.247562628239,"name":"week9"},{"team":"j","variable":"week10","value":90.5002536298707,"y":90.5002536298707,"name":"week10"},{"team":"j","variable":"week11","value":90.945267979987,"y":90.945267979987,"name":"week11"}],"type":"line","visible":false},{"name":"k","data":[{"team":"k","variable":"week1","value":87.5662458036095,"y":87.5662458036095,"name":"week1"},{"team":"k","variable":"week2","value":120.114420768805,"y":120.114420768805,"name":"week2"},{"team":"k","variable":"week3","value":129.038430904038,"y":129.038430904038,"name":"week3"},{"team":"k","variable":"week4","value":71.0845515783876,"y":71.0845515783876,"name":"week4"},{"team":"k","variable":"week5","value":107.666136836633,"y":107.666136836633,"name":"week5"},{"team":"k","variable":"week6","value":94.3356398958713,"y":94.3356398958713,"name":"week6"},{"team":"k","variable":"week7","value":123.703352650627,"y":123.703352650627,"name":"week7"},{"team":"k","variable":"week8","value":125.954946866259,"y":125.954946866259,"name":"week8"},{"team":"k","variable":"week9","value":128.541683307849,"y":128.541683307849,"name":"week9"},{"team":"k","variable":"week10","value":76.462334105745,"y":76.462334105745,"name":"week10"},{"team":"k","variable":"week11","value":103.706200029701,"y":103.706200029701,"name":"week11"}],"type":"line","visible":false},{"name":"l","data":[{"team":"l","variable":"week1","value":78.1338603887707,"y":78.1338603887707,"name":"week1"},{"team":"l","variable":"week2","value":101.788987731561,"y":101.788987731561,"name":"week2"},{"team":"l","variable":"week3","value":108.284691506997,"y":108.284691506997,"name":"week3"},{"team":"l","variable":"week4","value":94.7637318260968,"y":94.7637318260968,"name":"week4"},{"team":"l","variable":"week5","value":121.562665612437,"y":121.562665612437,"name":"week5"},{"team":"l","variable":"week6","value":89.9983752612025,"y":89.9983752612025,"name":"week6"},{"team":"l","variable":"week7","value":79.0143565321341,"y":79.0143565321341,"name":"week7"},{"team":"l","variable":"week8","value":85.5206015426666,"y":85.5206015426666,"name":"week8"},{"team":"l","variable":"week9","value":91.397118344903,"y":91.397118344903,"name":"week9"},{"team":"l","variable":"week10","value":128.540603970177,"y":128.540603970177,"name":"week10"},{"team":"l","variable":"week11","value":105.25979665108,"y":105.25979665108,"name":"week11"}],"type":"line","visible":false}]},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ee0b15b32982f6dee958" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ee0b15b32982f6dee958">{"x":{"hc_opts":{"title":{"text":null},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10},"series":[{"name":"a","data":[{"team":"a","variable":"week1","value":89.2795726656914,"y":89.2795726656914,"name":"week1"},{"team":"a","variable":"week2","value":74.6862770384178,"y":74.6862770384178,"name":"week2"},{"team":"a","variable":"week3","value":89.3313375813887,"y":89.3313375813887,"name":"week3"},{"team":"a","variable":"week4","value":115.376681373455,"y":115.376681373455,"name":"week4"},{"team":"a","variable":"week5","value":84.6963083650917,"y":84.6963083650917,"name":"week5"},{"team":"a","variable":"week6","value":114.478051359765,"y":114.478051359765,"name":"week6"},{"team":"a","variable":"week7","value":110.272973165847,"y":110.272973165847,"name":"week7"},{"team":"a","variable":"week8","value":79.5478085242212,"y":79.5478085242212,"name":"week8"},{"team":"a","variable":"week9","value":109.499182365835,"y":109.499182365835,"name":"week9"},{"team":"a","variable":"week10","value":122.040172647685,"y":122.040172647685,"name":"week10"},{"team":"a","variable":"week11","value":84.1423583729193,"y":84.1423583729193,"name":"week11"}],"type":"line"},{"name":"b","data":[{"team":"b","variable":"week1","value":78.6108155176044,"y":78.6108155176044,"name":"week1"},{"team":"b","variable":"week2","value":82.3170530842617,"y":82.3170530842617,"name":"week2"},{"team":"b","variable":"week3","value":82.2878267290071,"y":82.2878267290071,"name":"week3"},{"team":"b","variable":"week4","value":78.22584297508,"y":78.22584297508,"name":"week4"},{"team":"b","variable":"week5","value":71.2900497764349,"y":71.2900497764349,"name":"week5"},{"team":"b","variable":"week6","value":111.162577574141,"y":111.162577574141,"name":"week6"},{"team":"b","variable":"week7","value":106.675392417237,"y":106.675392417237,"name":"week7"},{"team":"b","variable":"week8","value":123.125600568019,"y":123.125600568019,"name":"week8"},{"team":"b","variable":"week9","value":73.2343667605892,"y":73.2343667605892,"name":"week9"},{"team":"b","variable":"week10","value":86.8677927786484,"y":86.8677927786484,"name":"week10"},{"team":"b","variable":"week11","value":124.25421402324,"y":124.25421402324,"name":"week11"}],"type":"line"},{"name":"c","data":[{"team":"c","variable":"week1","value":122.892958903685,"y":122.892958903685,"name":"week1"},{"team":"c","variable":"week2","value":108.152979230508,"y":108.152979230508,"name":"week2"},{"team":"c","variable":"week3","value":96.7373000178486,"y":96.7373000178486,"name":"week3"},{"team":"c","variable":"week4","value":126.847860827111,"y":126.847860827111,"name":"week4"},{"team":"c","variable":"week5","value":83.3573508262634,"y":83.3573508262634,"name":"week5"},{"team":"c","variable":"week6","value":71.6561553813517,"y":71.6561553813517,"name":"week6"},{"team":"c","variable":"week7","value":100.45768535696,"y":100.45768535696,"name":"week7"},{"team":"c","variable":"week8","value":92.6669520465657,"y":92.6669520465657,"name":"week8"},{"team":"c","variable":"week9","value":94.3764729378745,"y":94.3764729378745,"name":"week9"},{"team":"c","variable":"week10","value":94.1938847582787,"y":94.1938847582787,"name":"week10"},{"team":"c","variable":"week11","value":104.040745045058,"y":104.040745045058,"name":"week11"}],"type":"line","visible":false},{"name":"d","data":[{"team":"d","variable":"week1","value":99.7866997728124,"y":99.7866997728124,"name":"week1"},{"team":"d","variable":"week2","value":114.337258674204,"y":114.337258674204,"name":"week2"},{"team":"d","variable":"week3","value":108.259397340007,"y":108.259397340007,"name":"week3"},{"team":"d","variable":"week4","value":87.4769720667973,"y":87.4769720667973,"name":"week4"},{"team":"d","variable":"week5","value":84.9353616964072,"y":84.9353616964072,"name":"week5"},{"team":"d","variable":"week6","value":92.609477462247,"y":92.609477462247,"name":"week6"},{"team":"d","variable":"week7","value":74.4668138213456,"y":74.4668138213456,"name":"week7"},{"team":"d","variable":"week8","value":83.5750080505386,"y":83.5750080505386,"name":"week8"},{"team":"d","variable":"week9","value":77.4263288266957,"y":77.4263288266957,"name":"week9"},{"team":"d","variable":"week10","value":112.315435796045,"y":112.315435796045,"name":"week10"},{"team":"d","variable":"week11","value":78.0058875167742,"y":78.0058875167742,"name":"week11"}],"type":"line","visible":false},{"name":"e","data":[{"team":"e","variable":"week1","value":78.9230618206784,"y":78.9230618206784,"name":"week1"},{"team":"e","variable":"week2","value":128.070368571207,"y":128.070368571207,"name":"week2"},{"team":"e","variable":"week3","value":119.903620150872,"y":119.903620150872,"name":"week3"},{"team":"e","variable":"week4","value":113.165650498122,"y":113.165650498122,"name":"week4"},{"team":"e","variable":"week5","value":92.8253202838823,"y":92.8253202838823,"name":"week5"},{"team":"e","variable":"week6","value":106.116278502159,"y":106.116278502159,"name":"week6"},{"team":"e","variable":"week7","value":80.4875354561955,"y":80.4875354561955,"name":"week7"},{"team":"e","variable":"week8","value":113.915711375885,"y":113.915711375885,"name":"week8"},{"team":"e","variable":"week9","value":115.45011008624,"y":115.45011008624,"name":"week9"},{"team":"e","variable":"week10","value":87.4577268538997,"y":87.4577268538997,"name":"week10"},{"team":"e","variable":"week11","value":124.1437205486,"y":124.1437205486,"name":"week11"}],"type":"line","visible":false},{"name":"f","data":[{"team":"f","variable":"week1","value":80.1449077576399,"y":80.1449077576399,"name":"week1"},{"team":"f","variable":"week2","value":128.300355114043,"y":128.300355114043,"name":"week2"},{"team":"f","variable":"week3","value":104.463761830702,"y":104.463761830702,"name":"week3"},{"team":"f","variable":"week4","value":71.1294577084482,"y":71.1294577084482,"name":"week4"},{"team":"f","variable":"week5","value":110.869515645318,"y":110.869515645318,"name":"week5"},{"team":"f","variable":"week6","value":114.946675812826,"y":114.946675812826,"name":"week6"},{"team":"f","variable":"week7","value":128.854564316571,"y":128.854564316571,"name":"week7"},{"team":"f","variable":"week8","value":87.9488579882309,"y":87.9488579882309,"name":"week8"},{"team":"f","variable":"week9","value":106.064430354163,"y":106.064430354163,"name":"week9"},{"team":"f","variable":"week10","value":109.971363721415,"y":109.971363721415,"name":"week10"},{"team":"f","variable":"week11","value":110.416001710109,"y":110.416001710109,"name":"week11"}],"type":"line","visible":false},{"name":"g","data":[{"team":"g","variable":"week1","value":71.5782703878358,"y":71.5782703878358,"name":"week1"},{"team":"g","variable":"week2","value":103.32957896404,"y":103.32957896404,"name":"week2"},{"team":"g","variable":"week3","value":71.5504967002198,"y":71.5504967002198,"name":"week3"},{"team":"g","variable":"week4","value":127.706522140652,"y":127.706522140652,"name":"week4"},{"team":"g","variable":"week5","value":106.39956577681,"y":106.39956577681,"name":"week5"},{"team":"g","variable":"week6","value":125.279913409613,"y":125.279913409613,"name":"week6"},{"team":"g","variable":"week7","value":82.4514307081699,"y":82.4514307081699,"name":"week7"},{"team":"g","variable":"week8","value":85.2974549401551,"y":85.2974549401551,"name":"week8"},{"team":"g","variable":"week9","value":75.4602144099772,"y":75.4602144099772,"name":"week9"},{"team":"g","variable":"week10","value":80.177766927518,"y":80.177766927518,"name":"week10"},{"team":"g","variable":"week11","value":109.309007320553,"y":109.309007320553,"name":"week11"}],"type":"line","visible":false},{"name":"h","data":[{"team":"h","variable":"week1","value":110.440055062063,"y":110.440055062063,"name":"week1"},{"team":"h","variable":"week2","value":91.6282707545906,"y":91.6282707545906,"name":"week2"},{"team":"h","variable":"week3","value":82.5871062558144,"y":82.5871062558144,"name":"week3"},{"team":"h","variable":"week4","value":124.71748017706,"y":124.71748017706,"name":"week4"},{"team":"h","variable":"week5","value":125.324030648917,"y":125.324030648917,"name":"week5"},{"team":"h","variable":"week6","value":97.4077953584492,"y":97.4077953584492,"name":"week6"},{"team":"h","variable":"week7","value":85.6376719754189,"y":85.6376719754189,"name":"week7"},{"team":"h","variable":"week8","value":74.8883932363242,"y":74.8883932363242,"name":"week8"},{"team":"h","variable":"week9","value":78.3006728766486,"y":78.3006728766486,"name":"week9"},{"team":"h","variable":"week10","value":103.643843224272,"y":103.643843224272,"name":"week10"},{"team":"h","variable":"week11","value":92.4614683352411,"y":92.4614683352411,"name":"week11"}],"type":"line","visible":false},{"name":"i","data":[{"team":"i","variable":"week1","value":115.666848667897,"y":115.666848667897,"name":"week1"},{"team":"i","variable":"week2","value":121.875275229104,"y":121.875275229104,"name":"week2"},{"team":"i","variable":"week3","value":91.6774596879259,"y":91.6774596879259,"name":"week3"},{"team":"i","variable":"week4","value":103.157082917169,"y":103.157082917169,"name":"week4"},{"team":"i","variable":"week5","value":76.5468417527154,"y":76.5468417527154,"name":"week5"},{"team":"i","variable":"week6","value":99.9136745557189,"y":99.9136745557189,"name":"week6"},{"team":"i","variable":"week7","value":109.940687590279,"y":109.940687590279,"name":"week7"},{"team":"i","variable":"week8","value":94.2014892678708,"y":94.2014892678708,"name":"week8"},{"team":"i","variable":"week9","value":96.4729582052678,"y":96.4729582052678,"name":"week9"},{"team":"i","variable":"week10","value":117.336605601013,"y":117.336605601013,"name":"week10"},{"team":"i","variable":"week11","value":104.172855978832,"y":104.172855978832,"name":"week11"}],"type":"line","visible":false},{"name":"j","data":[{"team":"j","variable":"week1","value":97.133079781197,"y":97.133079781197,"name":"week1"},{"team":"j","variable":"week2","value":99.9877041671425,"y":99.9877041671425,"name":"week2"},{"team":"j","variable":"week3","value":113.544648406096,"y":113.544648406096,"name":"week3"},{"team":"j","variable":"week4","value":90.5110208271071,"y":90.5110208271071,"name":"week4"},{"team":"j","variable":"week5","value":83.1081769894809,"y":83.1081769894809,"name":"week5"},{"team":"j","variable":"week6","value":106.077061449178,"y":106.077061449178,"name":"week6"},{"team":"j","variable":"week7","value":120.273509486578,"y":120.273509486578,"name":"week7"},{"team":"j","variable":"week8","value":83.5827828524634,"y":83.5827828524634,"name":"week8"},{"team":"j","variable":"week9","value":70.3257163707167,"y":70.3257163707167,"name":"week9"},{"team":"j","variable":"week10","value":125.669809146784,"y":125.669809146784,"name":"week10"},{"team":"j","variable":"week11","value":82.803242248483,"y":82.803242248483,"name":"week11"}],"type":"line","visible":false},{"name":"k","data":[{"team":"k","variable":"week1","value":111.600414053537,"y":111.600414053537,"name":"week1"},{"team":"k","variable":"week2","value":91.4828439103439,"y":91.4828439103439,"name":"week2"},{"team":"k","variable":"week3","value":79.1845675744116,"y":79.1845675744116,"name":"week3"},{"team":"k","variable":"week4","value":118.948407080024,"y":118.948407080024,"name":"week4"},{"team":"k","variable":"week5","value":125.606325031258,"y":125.606325031258,"name":"week5"},{"team":"k","variable":"week6","value":100.604003560729,"y":100.604003560729,"name":"week6"},{"team":"k","variable":"week7","value":113.004684653133,"y":113.004684653133,"name":"week7"},{"team":"k","variable":"week8","value":75.6960454024374,"y":75.6960454024374,"name":"week8"},{"team":"k","variable":"week9","value":73.4635848505422,"y":73.4635848505422,"name":"week9"},{"team":"k","variable":"week10","value":85.3539440780878,"y":85.3539440780878,"name":"week10"},{"team":"k","variable":"week11","value":90.9474754659459,"y":90.9474754659459,"name":"week11"}],"type":"line","visible":false},{"name":"l","data":[{"team":"l","variable":"week1","value":80.546250953339,"y":80.546250953339,"name":"week1"},{"team":"l","variable":"week2","value":108.887722264044,"y":108.887722264044,"name":"week2"},{"team":"l","variable":"week3","value":78.6745044169948,"y":78.6745044169948,"name":"week3"},{"team":"l","variable":"week4","value":71.5704304724932,"y":71.5704304724932,"name":"week4"},{"team":"l","variable":"week5","value":97.89917237591,"y":97.89917237591,"name":"week5"},{"team":"l","variable":"week6","value":123.535826220177,"y":123.535826220177,"name":"week6"},{"team":"l","variable":"week7","value":129.666443238966,"y":129.666443238966,"name":"week7"},{"team":"l","variable":"week8","value":114.854724113829,"y":114.854724113829,"name":"week8"},{"team":"l","variable":"week9","value":108.618395915255,"y":108.618395915255,"name":"week9"},{"team":"l","variable":"week10","value":84.6725486591458,"y":84.6725486591458,"name":"week10"},{"team":"l","variable":"week11","value":86.0129962209612,"y":86.0129962209612,"name":"week11"}],"type":"line","visible":false}]},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="transaction-activity" class="section level2">
 <h2>Transaction Activity</h2>
-<div id="htmlwidget-d19a4348cd825497028d" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d19a4348cd825497028d">{"x":{"hc_opts":{"title":{"text":"Transactions by Type"},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10},"xAxis":{"categories":["Tommy","Charlie","Stephen","Alex","Erik","Kyle","Sam","Neil","Leigh","Kelsey","Doug","Cooper"]},"series":[{"data":[2,0,1,3,0,1,0,1,0,1,0,1],"type":"column","name":"Trades"},{"data":[30,28,22,20,15,13,12,8,8,5,4,3],"type":"column","name":"Acquisitions"},{"data":[32,39,33,60,26,23,27,14,26,20,13,19],"type":"column","name":"Activations"}]},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1e7b63c1d13414616b64" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1e7b63c1d13414616b64">{"x":{"hc_opts":{"title":{"text":"Transactions by Type"},"yAxis":{"title":{"text":null}},"credits":{"enabled":false},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10},"xAxis":{"categories":["Tommy","Charlie","Stephen","Alex","Erik","Kyle","Sam","Neil","Leigh","Kelsey","Doug","Cooper"]},"series":[{"data":[2,0,1,3,0,1,0,1,0,1,0,1],"type":"column","name":"Trades"},{"data":[30,28,22,20,15,13,12,8,8,5,4,3],"type":"column","name":"Acquisitions"},{"data":[32,39,33,60,26,23,27,14,26,20,13,19],"type":"column","name":"Activations"}]},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="alex" class="section level2">
-<h2>Alex</h2>
+<div id="schedule-analysis" class="section level2">
+<h2>Schedule Analysis</h2>
+<div id="alex" class="section level3">
+<h3>Alex</h3>
+<div id="actual-record" class="section level4">
+<h4>Actual record:</h4>
 </div>
-<div id="neil" class="section level2">
-<h2>Neil</h2>
+<div id="mean-simulated-record" class="section level4">
+<h4>Mean simulated record:</h4>
 </div>
-<div id="stephen" class="section level2">
-<h2>Stephen</h2>
+<div id="max-win-simulated-record" class="section level4">
+<h4>Max-win simulated record:</h4>
 </div>
-<div id="tommy" class="section level2">
-<h2>Tommy</h2>
+<div id="min-win-simulated-record" class="section level4">
+<h4>Min-win simulated record:</h4>
 </div>
-<div id="leigh" class="section level2">
-<h2>Leigh</h2>
 </div>
-<div id="kyle" class="section level2">
-<h2>Kyle</h2>
+<div id="neil" class="section level3">
+<h3>Neil</h3>
+<div id="actual-record-1" class="section level4">
+<h4>Actual record:</h4>
 </div>
-<div id="charlie" class="section level2">
-<h2>Charlie</h2>
+<div id="mean-simulated-record-1" class="section level4">
+<h4>Mean simulated record:</h4>
 </div>
-<div id="kelsey" class="section level2">
-<h2>Kelsey</h2>
+<div id="max-win-simulated-record-1" class="section level4">
+<h4>Max-win simulated record:</h4>
 </div>
-<div id="sam" class="section level2">
-<h2>Sam</h2>
+<div id="min-win-simulated-record-1" class="section level4">
+<h4>Min-win simulated record:</h4>
 </div>
-<div id="doug" class="section level2">
-<h2>Doug</h2>
 </div>
-<div id="cooper" class="section level2">
-<h2>Cooper</h2>
+<div id="stephen" class="section level3">
+<h3>Stephen</h3>
+<div id="actual-record-2" class="section level4">
+<h4>Actual record:</h4>
 </div>
-<div id="erik" class="section level2">
-<h2>Erik</h2>
+<div id="mean-simulated-record-2" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-2" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-2" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="tommy" class="section level3">
+<h3>Tommy</h3>
+<div id="actual-record-3" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-3" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-3" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-3" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="leigh" class="section level3">
+<h3>Leigh</h3>
+<div id="actual-record-4" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-4" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-4" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-4" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="kyle" class="section level3">
+<h3>Kyle</h3>
+<div id="actual-record-5" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-5" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-5" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-5" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="charlie" class="section level3">
+<h3>Charlie</h3>
+<div id="actual-record-6" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-6" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-6" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-6" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="kelsey" class="section level3">
+<h3>Kelsey</h3>
+<div id="actual-record-7" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-7" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-7" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-7" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="sam" class="section level3">
+<h3>Sam</h3>
+<div id="actual-record-8" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-8" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-8" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-8" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="doug" class="section level3">
+<h3>Doug</h3>
+<div id="actual-record-9" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-9" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-9" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-9" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="cooper" class="section level3">
+<h3>Cooper</h3>
+<div id="actual-record-10" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-10" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-10" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-10" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
+<div id="erik" class="section level3">
+<h3>Erik</h3>
+<div id="actual-record-11" class="section level4">
+<h4>Actual record:</h4>
+</div>
+<div id="mean-simulated-record-11" class="section level4">
+<h4>Mean simulated record:</h4>
+</div>
+<div id="max-win-simulated-record-11" class="section level4">
+<h4>Max-win simulated record:</h4>
+</div>
+<div id="min-win-simulated-record-11" class="section level4">
+<h4>Min-win simulated record:</h4>
+</div>
+</div>
 </div>
 
 
