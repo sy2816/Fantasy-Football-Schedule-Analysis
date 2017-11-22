@@ -1,27 +1,30 @@
 #make some mock data
-setwd("C:/Fantasy-Football-Schedule-Analysis")
+setwd("X:/Github Stuff/Fantasy-Football-Schedule-Analysis")
 library(dplyr)
 library(highcharter)
 library(reshape2)
-data <- data.frame(
-  team = letters[1:12],
-  week1 = runif(n = 12, min = 70, max = 130),
-  week2 = runif(n = 12, min = 70, max = 130),
-  week3 = runif(n = 12, min = 70, max = 130),
-  week4 = runif(n = 12, min = 70, max = 130),
-  week5 = runif(n = 12, min = 70, max = 130),
-  week6 = runif(n = 12, min = 70, max = 130),
-  week7 = runif(n = 12, min = 70, max = 130),
-  week8 = runif(n = 12, min = 70, max = 130),
-  week9 = runif(n = 12, min = 70, max = 130),
-  week10 = runif(n = 12, min = 70, max = 130),
-  week11 = runif(n = 12, min = 70, max = 130)
-)
+# data <- data.frame(
+#   team = letters[1:12],
+#   week1 = runif(n = 12, min = 70, max = 130),
+#   week2 = runif(n = 12, min = 70, max = 130),
+#   week3 = runif(n = 12, min = 70, max = 130),
+#   week4 = runif(n = 12, min = 70, max = 130),
+#   week5 = runif(n = 12, min = 70, max = 130),
+#   week6 = runif(n = 12, min = 70, max = 130),
+#   week7 = runif(n = 12, min = 70, max = 130),
+#   week8 = runif(n = 12, min = 70, max = 130),
+#   week9 = runif(n = 12, min = 70, max = 130),
+#   week10 = runif(n = 12, min = 70, max = 130),
+#   week11 = runif(n = 12, min = 70, max = 130)
+# )
+
+data <- openxlsx::read.xlsx("FF.xlsx", sheet = 1)
 
 transactions <- openxlsx::read.xlsx("FF.xlsx", sheet = 2)
 transactions$total <- rowSums(transactions[,c(2,3,5)])
 transactions <- arrange(transactions, desc(Acquisitions))
 # x is player schedule is for, y is vector of all possible teams (including x)
+
 createSchedule <- function(x, y){
   teams <- y
   teams <- as.character(teams[teams != x])
@@ -46,13 +49,15 @@ createSchedule <- function(x, y){
   return(schedule)
 }
 
+teamName <- "Stephen"
+
 # create empty vector to add to
 iterations <- 10000
 wins <- rep(NA, iterations)
 
 # Run 10000 simulations
 for (i in c(1:iterations)){
-  schedule <- createSchedule("b", data$team)
+  schedule <- createSchedule(teamName, data$team)
   numWins <- length(grep(pattern = "w", schedule$result))
   wins[i] <- numWins
 }
