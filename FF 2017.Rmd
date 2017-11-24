@@ -64,8 +64,12 @@ knitr::kable(dat)
 ##Score Comparison
 ```{r score comparison, echo=FALSE, warning = FALSE}
 
+df <- data
+colnames(df) <- c("team", "Week 1", "Week 2", "Week 3",
+                   "Week 4", "Week 5", "Week 6", "Week 7",
+                   "Week 8", "Week 9", "Week 10", "Week 11")
 
-mdata <- melt(data, id.vars = "team")
+mdata <- melt(df, id.vars = "team")
 teams <- unique(mdata$team)
 for (p in teams){
   filtDat <- filter(mdata, team == p)
@@ -90,7 +94,19 @@ highchart() %>%
 
 ```
 
+##Average and Standard Deviation
+Kudos to Erik for sending me the table.
+
+```{r avg, echo = FALSE}
+avgData <- openxlsx::read.xlsx("FF.xlsx", sheet = 3)
+
+knitr::kable(avgData)
+
+```
+
 ##Transaction Activity
+Transaction activity as of November 24th
+
 ```{r transactions, echo=FALSE, warning=FALSE}
 transactions <- openxlsx::read.xlsx("FF.xlsx", sheet = 2)
 transactions$total <- rowSums(transactions[,c(2,3,5)])
