@@ -1,0 +1,808 @@
+---
+title: "Fantasy Football 2018"
+author: "Stephen York"
+date: "November 20, 2018"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+
+---
+
+```{r setup, include=FALSE}
+setwd("C:/Fantasy-Football-Schedule-Analysis/2018")
+library(highcharter)
+library(reshape2)
+library(dplyr)
+colors = c("#000040", "#000093", "#0020E9", "#0076FF", "#00B8C2", "#04E466", "#49FB25", "#E7FD09", "#FEEA02", "#FFC200", "#FF8500", "#FF3300")
+colors <- c("#C3674D", "#B17535", "#94842D", "#6F8F3D", "#46965E", "#0F9883", "#1497A3", "#5890B7", "#9184B6", "#BE75A3", "#D76C83", "#DB705F")
+
+colors <- RColorBrewer::brewer.pal(12, "Paired")
+
+
+```
+
+```{r load data, include=FALSE}
+data <- openxlsx::read.xlsx("FF 2018.xlsx", sheet = 1)
+
+# Function to randomly generate a schedule and determine number of wins.
+# x is player schedule is for, y is vector of all possible teams (including x)
+createSchedule <- function(x, y){
+  teams <- y
+  teams <- as.character(teams[teams != x])
+  
+  possibleTeams <- teams
+  schedule <- data.frame(week = c(1:11), player = NA, result = NA)
+  for(i in c(1:11)){
+    week <- i
+    matchup <- sample(possibleTeams, 1)
+    schedule$player[i] <- matchup
+    weekNum <- paste0("week", i)
+    xScore <- data[,weekNum][data$team == x] #Change week1 to corresponding week in iteration.
+    yScore <- data[,weekNum][data$team == matchup]
+    if (xScore > yScore){
+      result <- "w"
+    }else{
+      result <- "l"
+    }
+    schedule$result[i] <- result
+    possibleTeams <- possibleTeams[possibleTeams != matchup]
+  }
+  return(schedule)
+}
+
+```
+
+
+```{r score table, echo=FALSE}
+
+dat <- data 
+colnames(dat) <- c("Team", "Week 1", "Week 2", "Week 3",
+                   "Week 4", "Week 5", "Week 6", "Week 7",
+                   "Week 8", "Week 9", "Week 10", "Week 11")
+knitr::kable(dat) 
+```
+
+##Score Comparison
+```{r score comparison, echo=FALSE, warning = FALSE}
+
+df <- data
+
+# Rename columns
+colnames(df) <- c("team", "Week 1", "Week 2", "Week 3",
+                   "Week 4", "Week 5", "Week 6", "Week 7",
+                   "Week 8", "Week 9", "Week 10", "Week 11")
+
+# Melt data
+mdata <- melt(df, id.vars = "team")
+
+#Extract unique team names
+teams <- unique(mdata$team)
+
+# Loop through teams creating individual dataframes that will be their own series in the chart.
+for (p in teams){
+  filtDat <- filter(mdata, team == p)
+  assign(x = p, value = filtDat)
+}
+
+highchart() %>%
+  hc_add_series("line", data = Alex, hcaes(x = variable, y = value, group = team))%>%
+  hc_add_series("line", data = Neil, hcaes(x = variable, y = value, group = team))%>%
+  hc_add_series("line", data = Stephen, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Tommy, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Leigh, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Kyle, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Charlie, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Kelsey, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Sam, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Doug, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Cooper, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_add_series("line", data = Erik, hcaes(x = variable, y = value, group = team), visible = FALSE)%>%
+  hc_colors(colors = colors)%>%
+  hc_xAxis(categories = c(1:11))
+  
+
+```
+
+##Average and Standard Deviation
+Kudos to Erik for sending me the table.
+
+```{r avg, echo = FALSE}
+avgData <- openxlsx::read.xlsx("FF 2018.xlsx", sheet = 3)
+colnames(avgData) <- c("Team", "Average", "Standard Deviation")
+
+knitr::kable(avgData)
+
+```
+
+##Head-to-Head Scenarios
+A matrix of what your team's record would be if you played the same team every week. Row is the home team, column is away. Credit to Neil for putting this this one together. 
+
+```{r head-to-head, echo = FALSE}
+FF <- openxlsx::read.xlsx("FF 2018.xlsx", sheet = 1)
+
+# Create a list to store the name and scores for each week
+team <- list(name = NULL, week2= NULL, week3= NULL, week4= NULL, week5= NULL, week6= NULL, week7= NULL, week8= NULL, week9= NULL,
+          week10= NULL, week11= NULL)
+# This list will contain each team list (contains name and results)
+schedules <- list()
+
+# Cry myself to sleep for not having a python dictionary
+
+# Fill out all of the lists
+for(i in seq(dim(FF)[2]) ){
+  team$name <- FF[i,1]
+  team$week1 <- FF[i,2]
+  team$week2 <- FF[i,3]
+  team$week3 <- FF[i,4]
+  team$week4 <- FF[i,5]
+  team$week5 <- FF[i,6]
+  team$week6 <- FF[i,7]
+  team$week7 <- FF[i,8]
+  team$week8 <- FF[i,9]
+  team$week9 <- FF[i,10]
+  team$week10 <- FF[i,11]
+  team$week11 <- FF[i,12]
+  #Add this shit to the vector of scehdules
+  schedules[[i]] <- team
+}
+
+# This function takes two team objects determines the win loss record for the "home" team
+makeRecord <- function(home, away){
+  wins <- 0
+  losses <- 0
+  
+  # this loops through each element name in the team object
+  for(element in names(home)){
+    if(element != 'name'){
+      #Compare the wins and loses between home and away
+      if( home[[element]] >= away[[element]]){
+        wins <- wins + 1
+      } else {
+        losses <- losses +  1
+      }
+    }
+  }
+  results <- paste(wins, "-",losses)
+  return(results)
+}
+
+#Loop a bunch to make a matrix of win loss records
+df <- FF
+names <- as.vector(FF$team)
+colnames(df)[1:12] <- names
+rownames(df)[1:12] <- names
+
+# Loop through each row
+for( rowNumb in seq( dim(df)[1]) ){
+  # Loop through each column
+  for( colNumb in seq( dim(df)[2]) ){
+    df[rowNumb, colNumb] <- makeRecord(schedules[[rowNumb]], schedules[[colNumb]])
+  }
+}
+
+knitr::kable(df)
+
+```
+
+##Transaction Activity
+Transaction activity as of November 24th.
+
+```{r transactions, echo=FALSE, warning=FALSE}
+transactions <- openxlsx::read.xlsx("FF 2018.xlsx", sheet = 2)
+transactions$total <- rowSums(transactions[,c(2,3,5)])
+transactions <- arrange(transactions, desc(Acquisitions))
+
+highchart() %>%
+  hc_xAxis(categories = transactions$team) %>%
+  hc_add_series(data = transactions$Trades, type = "column", name = "Trades") %>%
+  hc_add_series(data = transactions$Acquisitions, type = "column", name = "Acquisitions") %>%
+  hc_add_series(data = transactions$Activate, type = "column", name = "Activations")%>%
+  hc_title(text = "Transactions by Type")
+
+```
+
+##Simulated Schedules
+Since the schedule your fantasy team has plays an important role in deciding your team's end of season record, I created a script that will randomly generate 10,000 possible schedules and I then calculated the number of wins a player would recieve in each of those 10,000 schedules using the scores for the respctive weeks since that would be approximately the same no matter who you'd play. The results are displayed for each team in the bar charts below where 'Probability of winning X games' means that of the 10,000 schedules I generated, the team won X number of games that percent of the schedules. The average number of games won is also displayed in the chart.
+
+This isn't an entirely perfect way of looking at things, for example, waiver orders are created using standings, so if you had a different schedule and lost/won more games early in the season then perhaps you'd play the waivers differently which would adjust your scores, but at the very least it, should be an interesting way of looking at things. 
+
+###Alex
+####Record this season: 8-3
+
+```{r alex sim, echo=FALSE}
+
+teamName <- "Alex"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[1])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Neil
+####Record this season: 2-9
+
+```{r Neil sim, echo=FALSE}
+
+teamName <- "Neil"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[2])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Stephen
+####Record this season: 7-4
+
+```{r stephen sim, echo=FALSE}
+
+teamName <- "Stephen"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[3])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Tommy
+####Record this season: 9-2
+
+```{r tommy sim, echo=FALSE}
+
+teamName <- "Tommy"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[4])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Leigh
+####Record this season: 5-6
+
+```{r leigh sim, echo=FALSE}
+
+teamName <- "Leigh"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[5])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Kyle
+####Record this season: 5-6
+
+```{r kyle sim, echo=FALSE}
+
+teamName <- "Kyle"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[6])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Charlie
+####Record this season: 5-6
+
+```{r charlie sim, echo=FALSE}
+
+teamName <- "Charlie"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[7])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Kelsey
+####Record this season: 5-6
+
+```{r kelsey sim, echo=FALSE}
+
+teamName <- "Kelsey"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[8])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Sam
+####Record this season: 4-7
+
+```{r sam sim, echo=FALSE}
+
+teamName <- "Sam"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[9])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Doug
+####Record this season: 7-4
+
+```{r doug sim, echo=FALSE}
+
+teamName <- "Doug"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[10])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Cooper
+####Record this season: 4-7
+
+```{r cooper sim, echo=FALSE}
+
+teamName <- "Cooper"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[11])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
+
+###Erik
+####Record this season: 5-6
+
+```{r Erik sim, echo=FALSE}
+
+teamName <- "Erik"
+
+# create empty vector to add to
+iterations <- 10000
+wins <- rep(NA, iterations)
+
+# Run 10000 simulations
+for (i in c(1:iterations)){
+  schedule <- createSchedule(teamName, data$team)
+  numWins <- length(grep(pattern = "w", schedule$result))
+  wins[i] <- numWins
+}
+
+# Calculate summary statistics
+minWins <- min(wins)
+maxWins <- max(wins)
+meanWins <- round(mean(wins), 1)
+
+# Create frequency dataframe
+wins <- sort(wins)
+winDat <- data.frame(iteration = c(1:iterations),
+                     wins = wins)
+winCount <- dplyr::count(winDat, wins)
+winCount$percentage <- round(((winCount$n/iterations) * 100), 1)
+
+# Graph
+highchart() %>%
+  hc_add_series(data = winCount, "column", hcaes(x = wins, y = percentage), name = "Percent Chance", color = colors[12])%>%
+  hc_xAxis(plotLines = list(list(
+    value = meanWins, color = "black", width = 1.5,
+    label = list(text = paste0("Average # of Wins - ", meanWins)),
+    zIndex = 5
+  )),
+  title = list(text = "Number of Wins")) %>%
+  hc_yAxis(labels = list(format = "{value} %")) %>%
+  hc_tooltip(
+    pointFormat = "Probability of winning {point.x} games: <b>{point.y}</b><br/>",
+    valueSuffix = ' %',
+    headerFormat = ""
+  ) %>%
+  hc_title(text = "Number of wins based on 10,000 simulations")
+
+
+```
